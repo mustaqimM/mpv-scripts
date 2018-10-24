@@ -18,6 +18,9 @@ function show_end_time_fn()
 
 	endHour = currentHour + remainingTimeInHours
 	endMin = math.floor(currentMinutes + remainingTimeInMinutes)
+	if endMin > 60 then
+		endHour = endHour + math.floor(endMin / 60)
+	end
 
 	mp.msg.info(endHour .. ":" .. endMin)
 	mp.osd_message("Playback will end at: " .. endHour .. ":" .. endMin)
