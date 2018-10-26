@@ -25,13 +25,10 @@ function show_end_time_fn()
 		endMin = math.floor(endMin % 60)
 	end
 
-	--mp.msg.info("Playback will end at: " .. endHour .. ":" .. endMin)
-	--mp.osd_message("Playback will end at: " .. endHour .. ":" .. endMin)
-
 	mp.osd_message(string.format("Playback will end at: %02d:%02d", endHour, endMin))
 	mp.msg.info(string.format("Playback will end at: %02d:%02d", endHour, endMin))
 end
 
 
-mp.add_key_binding("b", "show_time", show_time_fn)
-mp.add_key_binding("B", "show_end_time", show_end_time_fn)
+mp.add_key_binding("c", "show_time", show_time_fn)
+mp.add_key_binding("C", "show_end_time", show_end_time_fn)
