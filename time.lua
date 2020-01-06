@@ -4,35 +4,46 @@
 --	Link: https://github.com/mustaqimM/mpv-scripts/time.lua
 
 
+options = require 'mp.options'
+
+local opts = {
+	hour = '%I',
+	time = 'c',
+	key  = 'C'
+}
+options.read_options(opts)
+hour = string.gsub(opts.hour, '"', "")
+
 function show_time_fn()
-	mp.msg.info(os.date("%H:%M"))
-	mp.osd_message(os.date("%H:%M"))
+	mp.msg.info(os.date(hour .. ':%M'))
+	mp.osd_message(os.date(hour .. ":%M"))
 end
+
 
 function show_end_time_fn()
-	currentHour = tonumber(os.date("%H"))    -- Change '%H' to '%I' for 12-hr clock
-	currentMinutes = tonumber(os.date("%M"))
+	clock_hour = tonumber(os.date(hour))
+	clock_minutes = tonumber(os.date("%M"))
 
-	remainingTimeInSeconds = mp.get_property_number("time-remaining")
-	remainingTimeInHours = math.floor(remainingTimeInSeconds / 3600)
-	remainingTimeInMinutes = (remainingTimeInSeconds / 60) % 60
+	local remaining_t_seconds = mp.get_property_number("playtime-remaining") or 0
+	remaining_t_hours = math.floor(remaining_t_seconds / 3600)
+	remaining_t_min = (remaining_t_seconds / 60) % 60
 
-	endHour = currentHour + remainingTimeInHours
-	endMin = math.floor(currentMinutes + remainingTimeInMinutes)
+	end_hour = clock_hour + remaining_t_hours
+	end_min = math.floor(clock_minutes + remaining_t_min)
 
-	if endMin >= 60 then
-		endHour = math.floor(endHour + (endMin / 60))
-		endMin = math.floor(endMin % 60)
+	if end_min >= 60 then
+		end_hour = math.floor(end_hour + (end_min / 60))
+		end_min = math.floor(end_min % 60)
 	end
 
-	if endHour >= 24 then
-		endHour = math.abs(endHour % 24) + 1
+	if end_hour >= 24 then
+		end_hour = math.abs(end_hour % 24) + 1
 	end
 
-	mp.msg.info(string.format("Playback will end at: %02d:%02d", endHour, endMin))
-	mp.osd_message(string.format("Playback will end at: %02d:%02d", endHour, endMin))
+	mp.msg.info(string.format("Playback will end at: %02d:%02d", end_hour, end_min))
+	mp.osd_message(string.format("Playback will end at: %02d:%02d", end_hour, end_min))
 end
 
 
-mp.add_key_binding("c", "show_time", show_time_fn)
-mp.add_key_binding("C", "show_end_time", show_end_time_fn)
+mp.add_key_binding(opts.time, "show_time", show_time_fn)
+mp.add_key_binding(opts.key, "show_end_time", show_end_time_fn)
