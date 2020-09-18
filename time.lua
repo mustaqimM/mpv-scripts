@@ -37,7 +37,7 @@ function show_end_time_fn()
 	end
 
 	if end_hour >= 24 then
-		end_hour = math.abs(end_hour % 24) + 1
+		end_hour = math.abs(end_hour % 24)
 	end
 
 	mp.msg.info(string.format("Playback will end at: %02d:%02d", end_hour, end_min))
