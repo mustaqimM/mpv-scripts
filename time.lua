@@ -1,7 +1,7 @@
 --	time.lua
 --	'c' shows current time on keypress;                     keybind name: "show_time_fn"
 --	'C' shows what the time will be at the end of playback; keybind name: "show_end_time_fn"
---	Link: https://github.com/mustaqimM/mpv-scripts/time.lua
+--	Link: https://github.com/mustaqimM/mpv-scripts/blob/master/time.lua
 
 
 options = require 'mp.options'
